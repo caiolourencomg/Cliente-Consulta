@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Definindo o conjunto de caracteres e a responsividade para dispositivos móveis -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título da página -->
+    <title>Consulta e Cadastro de Clientes</title>
+
+    <!-- Link para a folha de estilos do Bootstrap, biblioteca de estilos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Estilo para o corpo da página */
+        body {
+            font-family: 'Verdana', sans-serif; /* Fonte usada no corpo da página */
+            background-color: #00441c; /* Cor de fundo da página */
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Garantir que a altura da página ocupe toda a tela */
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        /* Estilo para o contêiner central da página */
+        .container {
+            width: 100%;
+            max-width: 380px; /* Largura máxima do contêiner */
+            background-color: #ffffff; /* Cor de fundo do contêiner */
+            padding: 20px;
+            border-radius: 8px; /* Cantos arredondados */
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            margin-left: 10px;
+        }
+
+        /* Estilo para os títulos */
+        h1 {
+            color: #28a745; /* Cor do título */
+            text-align: center; /* Centraliza o título */
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #333; /* Cor do subtítulo */
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        /* Estilo para os botões */
+        .btn-primary, .btn-success {
+            border-radius: 5px; /* Cantos arredondados nos botões */
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            transition: background-color 0.3s; /* Efeito suave ao passar o mouse */
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            opacity: 0.8; /* Diminui a opacidade quando o botão é pressionado */
+        }
+
+        /* Estilo para a tabela */
+        .table {
+            margin-top: 10px;
+            font-size: 0.75rem;
+        }
+
+        .table th {
+            background-color: #28a745; /* Cor de fundo das células de cabeçalho */
+            color: white; /* Cor do texto nas células de cabeçalho */
+        }
+
+        .table td {
+            background-color: #f9f9f9; /* Cor de fundo das células de dados */
+        }
+
+        /* Estilo para as mensagens de resultado */
+        .mensagem-resultado {
+            font-weight: bold;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+
+        /* Estilo para mensagens de sucesso */
+        .mensagem-sucesso {
+            background-color: #e0f7e0; /* Cor de fundo para sucesso */
+            color: #28a745; /* Cor do texto para sucesso */
+        }
+
+        /* Estilo para mensagens de erro */
+        .mensagem-erro {
+            background-color: #f8d7da; /* Cor de fundo para erro */
+            color: #dc3545; /* Cor do texto para erro */
+        }
+
+        /* Estilo para o rodapé da página */
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: 15px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contêiner principal da página -->
+    <div class="container">
+        <h1>Consulta e Cadastro de Clientes</h1>
+
+        <!-- Seção de consulta de cliente -->
+        <div id="consulta-cliente">
+            <h3>Consulta de Cliente</h3>
+            <div class="mb-3">
+                <label for="cpf-consulta" class="form-label">CPF:</label>
+                <input type="text" class="form-control" id="cpf-consulta" placeholder="Digite o CPF" />
+            </div>
+            <button class="btn btn-primary" onclick="consultarCliente()">Buscar</button>
+
+            <!-- Área onde o resultado da consulta será exibido -->
+            <div id="resultado-consulta" class="mensagem-resultado mt-3"></div>
+        </div>
+
+        <!-- Tabela para exibir os dados do cliente encontrado -->
+        <div id="tabela-consulta" class="tabela-container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Data de Nascimento</th>
+                        <th>E-mail</th>
+                    </tr>
+                </thead>
+                <tbody id="dados-cliente-consulta">
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Seção de cadastro de cliente -->
+        <div id="cadastro-cliente">
+            <h3>Cadastro de Novo Cliente</h3>
+            <form id="form-cadastro">
+                <div class="mb-3">
+                    <label for="cpf-cadastro" class="form-label">CPF:</label>
+                    <input type="text" class="form-control" id="cpf-cadastro" placeholder="Digite o CPF" required />
+                </div>
+                <div class="mb-3">
+                    <label for="nome-cadastro" class="form-label">Nome:</label>
+                    <input type="text" class="form-control" id="nome-cadastro" placeholder="Digite o nome" required />
+                </div>
+                <div class="mb-3">
+                    <label for="nascimento-cadastro" class="form-label">Data de Nascimento:</label>
+                    <input type="date" class="form-control" id="nascimento-cadastro" required />
+                </div>
+                <div class="mb-3">
+                    <label for="email-cadastro" class="form-label">E-mail:</label>
+                    <input type="email" class="form-control" id="email-cadastro" placeholder="Digite o e-mail" required />
+                </div>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+            </form>
+
+            <!-- Área onde o resultado do cadastro será exibido -->
+            <div id="resultado-cadastro" class="mensagem-resultado mt-3"></div>
+        </div>
+
+        <!-- Rodapé com créditos -->
+        <footer>
+            <p>Desenvolvido por Caio C. G. Lourenço RA:007214 e João F. S. Bernardino RA:007324</p>
+        </footer>
+    </div>
+
+    <script>
+        // Função para consultar um cliente pelo CPF
+        function consultarCliente() {
+            let cpf = document.getElementById('cpf-consulta').value;  // Obtém o CPF da caixa de texto
+            const listaClientes = [
+                { cpf: '123.456.789-00', nome: 'João Silva', nascimento: '1990-05-15', email: 'joao@gmail.com' },
+                { cpf: '987.654.321-00', nome: 'Maria Oliveira', nascimento: '1985-10-20', email: 'maria@hotmail.com' },
+                { cpf: '106.278.346-80', nome: 'Caio Lourenco', nascimento: '1990-10-19', email: 'caiolourenco@hotmail.com' }
+            ]; // Lista simulada de clientes
+
+            // Busca o cliente com o CPF fornecido
+            const clienteEncontrado = listaClientes.find(cliente => cliente.cpf === cpf);
+
+            const resultadoConsulta = document.getElementById('resultado-consulta');  // Obtém o elemento de resultado
+            const tabelaDadosCliente = document.getElementById('dados-cliente-consulta');  // Obtém o corpo da tabela
+
+            // Se o cliente for encontrado, exibe as informações na tabela
+            if (clienteEncontrado) {
+                resultadoConsulta.className = 'mensagem-resultado mensagem-sucesso';  // Define a classe de sucesso
+                resultadoConsulta.textContent = 'Cliente encontrado!';  // Exibe mensagem de sucesso
+                tabelaDadosCliente.innerHTML = `  <!-- Exibe os dados do cliente na tabela -->
+                    <tr>
+                        <td>${clienteEncontrado.nome}</td>
+                        <td>${clienteEncontrado.nascimento}</td>
+                        <td>${clienteEncontrado.email}</td>
+                    </tr>
+                `;
+            } else {
+                // Se não encontrar o cliente, exibe mensagem de erro
+                resultadoConsulta.className = 'mensagem-resultado mensagem-erro';
+                resultadoConsulta.textContent = 'Cliente não encontrado!';
+            }
+        }
+
+        // Evento para o formulário de cadastro
+        document.getElementById('form-cadastro').addEventListener('submit', function (e) {
+            e.preventDefault();  // Previne o envio do formulário (página não será recarregada)
+
+            // Obtém os dados inseridos no formulário
+            const cpfCadastro = document.getElementById('cpf-cadastro').value;
+            const nomeCadastro = document.getElementById('nome-cadastro').value;
+            const nascimentoCadastro = document.getElementById('nascimento-cadastro').value;
+            const emailCadastro = document.getElementById('email-cadastro').value;
+
+            const clienteExistente = cpfCadastro === '123.456.789-00';  // Verifica se o CPF já existe
+
+            const resultadoCadastro = document.getElementById('resultado-cadastro');  // Obtém o elemento de resultado
+
+            // Se o CPF já estiver cadastrado, exibe uma mensagem de erro
+            if (clienteExistente) {
+                resultadoCadastro.className = 'mensagem-resultado mensagem-erro';
+                resultadoCadastro.textContent = 'CPF já cadastrado!';
+            } else {
+                // Caso contrário, exibe uma mensagem de sucesso
+                resultadoCadastro.className = 'mensagem-resultado mensagem-sucesso';
+                resultadoCadastro.textContent = 'Cliente cadastrado com sucesso!';
+            }
+        });
+    </script>
+
+    <!-- Script do Bootstrap para funcionalidade adicional -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
